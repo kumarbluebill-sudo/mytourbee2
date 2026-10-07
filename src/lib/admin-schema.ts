@@ -18,7 +18,7 @@ export type Field =
   | { key: string; label: string; type: "lines" | "images"; help?: string }
   | { key: string; label: string; type: "rows"; fields: Field[]; help?: string };
 
-export type EntityKind = "destination" | "tour" | "activity" | "post" | "cruise" | "visa" | "settings";
+export type EntityKind = "destination" | "tour" | "activity" | "post" | "cruise" | "visa" | "page" | "settings";
 
 /** A wizard step: a title and the top-level field keys shown on it. */
 export type Step = { title: string; keys: string[]; hint?: string };
@@ -209,6 +209,29 @@ export const schemas: Record<EntityKind, Schema> = {
       { title: "Images", keys: ["image"] },
       { title: "Rules & price", keys: ["processing", "validity", "stay", "entry", "price"] },
       { title: "Documents & steps", keys: ["requirements", "steps", "faqs"] },
+      seoStep, publishStep,
+    ],
+  },
+  page: {
+    kind: "page", label: "Page", plural: "Information pages", titleKey: "title", publicPath: "",
+    fields: [
+      { key: "title", label: "Page title", type: "text", required: true },
+      { key: "intro", label: "Introduction", type: "textarea", help: "Shown under the title." },
+      { key: "updated", label: "Last updated (shown on the page)", type: "text", help: "e.g. 7 October 2026. Leave blank to hide." },
+      { key: "sections", label: "Sections", type: "rows", help: "In a section, start a line with '- ' for a bullet list. Leave a blank line between paragraphs.", fields: [
+        { key: "heading", label: "Heading", type: "text", required: true },
+        { key: "body", label: "Text", type: "textarea", max: 8000, required: true },
+      ] },
+      { key: "faqs", label: "Questions & answers (used on the FAQ page)", type: "rows", fields: [
+        { key: "category", label: "Group", type: "text", required: true },
+        { key: "q", label: "Question", type: "text", required: true },
+        { key: "a", label: "Answer", type: "textarea", required: true },
+      ] },
+      ...seo, published,
+    ],
+    steps: [
+      { title: "Content", keys: ["title", "intro", "updated", "sections"] },
+      { title: "FAQs", keys: ["faqs"], hint: "Only the FAQ page shows these." },
       seoStep, publishStep,
     ],
   },

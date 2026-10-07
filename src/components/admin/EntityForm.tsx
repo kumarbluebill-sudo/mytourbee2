@@ -249,7 +249,7 @@ export default function EntityForm({ kind, slug, initial, destinations }: { kind
         ) : (
           <button type="button" onClick={() => save()} disabled={busy} className="min-h-12 rounded-full border border-line px-6 text-sm font-semibold text-heading disabled:opacity-60">{busy ? "Saving…" : isNew ? "Create now" : "Save"}</button>
         )}
-        {!isNew && kind !== "settings" && <button type="button" onClick={remove} disabled={busy} className="min-h-12 rounded-full border border-discount px-6 font-semibold text-discount disabled:opacity-60">Delete</button>}
+        {!isNew && kind !== "settings" && kind !== "page" && <button type="button" onClick={remove} disabled={busy} className="min-h-12 rounded-full border border-discount px-6 font-semibold text-discount disabled:opacity-60">Delete</button>}
         {msg && <span role="status" className="text-sm">{msg}</span>}
       </div>
     </form>

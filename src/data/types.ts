@@ -51,6 +51,12 @@ export const defaultSettings: SiteSettings = {
   hours: "Mon–Sat, 9:00 am – 7:00 pm IST", instagram: "", facebook: "", youtube: "",
 };
 
+export type InfoPage = {
+  slug: string; title: string; intro: string; updated: string;
+  sections: { heading: string; body: string }[];
+  faqs: { category: string; q: string; a: string }[];
+} & Seo;
+
 export type CruiseLine = "Cordelia" | "MSC" | "Royal Caribbean" | "Disney" | "Other";
 export type Cruise = {
   slug: string; title: string; line: CruiseLine; ship: string; route: string; departurePort: string;

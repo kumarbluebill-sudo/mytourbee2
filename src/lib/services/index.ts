@@ -1,6 +1,6 @@
 import "server-only";
 import { reviews as sampleReviews } from "@/data/mytourbee";
-import { defaultSettings, type ActivityFull, type Cruise, type Visa, type Post, type Review, type SiteSettings, type Tour } from "@/data/types";
+import { defaultSettings, type ActivityFull, type Cruise, type InfoPage, type Visa, type Post, type Review, type SiteSettings, type Tour } from "@/data/types";
 import type { DestinationDetail } from "@/data/destinations";
 import { db } from "@/lib/db";
 import { getCatalog, listCatalog } from "@/lib/store/catalog";
@@ -41,6 +41,7 @@ const mytourbee: ProductService = {
   getCruise: async (slug) => onlyLive(getCatalog<Cruise>("cruise", slug)),
   getVisas: async () => listCatalog<Visa>("visa").filter(live),
   getVisa: async (slug) => onlyLive(getCatalog<Visa>("visa", slug)),
+  getPage: async (slug) => onlyLive(getCatalog<InfoPage>("page", slug)),
   getSettings: async () => ({ ...defaultSettings, ...(getCatalog<SiteSettings>("settings", "site") ?? {}) }),
 };
 

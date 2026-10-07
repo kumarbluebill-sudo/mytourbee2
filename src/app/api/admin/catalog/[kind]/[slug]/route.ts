@@ -5,7 +5,7 @@ import { sanitize, type EntityKind } from "@/lib/admin-schema";
 import { audit } from "@/lib/store/records";
 import { deleteCatalog, getCatalog, listCatalog, putCatalog } from "@/lib/store/catalog";
 
-const KINDS = ["destination", "tour", "activity", "post", "cruise", "visa", "settings"] as const;
+const KINDS = ["destination", "tour", "activity", "post", "cruise", "visa", "page", "settings"] as const;
 const known = (k: string): k is EntityKind => (KINDS as readonly string[]).includes(k);
 
 export async function PUT(req: Request, ctx: RouteContext<"/api/admin/catalog/[kind]/[slug]">) {
@@ -32,6 +32,7 @@ export async function DELETE(req: Request, ctx: RouteContext<"/api/admin/catalog
   if (g.error) return g.error;
   const { kind, slug } = await ctx.params;
   if (!known(kind) || kind === "settings") return NextResponse.json({ error: "Unknown type" }, { status: 404 });
+  if (kind === "page") return NextResponse.json({ error: "Information pages can be edited but not deleted." }, { status: 405 });
   if (!getCatalog(kind, slug)) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
   if (kind === "destination") {

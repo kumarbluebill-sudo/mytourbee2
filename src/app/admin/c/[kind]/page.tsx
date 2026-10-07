@@ -4,7 +4,7 @@ import { schemas, type EntityKind } from "@/lib/admin-schema";
 import { inr } from "@/lib/format";
 import { listCatalog } from "@/lib/store/catalog";
 
-const KINDS = ["destination", "tour", "activity", "post", "cruise", "visa"];
+const KINDS = ["destination", "tour", "activity", "post", "cruise", "visa", "page"];
 const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v) ?? "";
 
 export default async function CatalogList({ params, searchParams }: PageProps<"/admin/c/[kind]">) {
@@ -19,7 +19,7 @@ export default async function CatalogList({ params, searchParams }: PageProps<"/
     <div>
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-3xl">{schema.plural}</h1>
-        <Link href={`/admin/c/${kind}/new`} className="inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-semibold text-white hover:bg-primary-dark">+ Add {schema.label.toLowerCase()}</Link>
+        {kind !== "page" && <Link href={`/admin/c/${kind}/new`} className="inline-flex min-h-11 items-center rounded-full bg-primary px-6 text-sm font-semibold text-white hover:bg-primary-dark">+ Add {schema.label.toLowerCase()}</Link>}
       </div>
       <form className="mt-4"><label className="sr-only" htmlFor="q">Search</label><input id="q" name="q" defaultValue={q} placeholder="Search…" type="search" className="min-h-11 w-full max-w-sm rounded-xl border border-line px-3 text-heading" /></form>
       <ul className="mt-4 divide-y divide-line rounded-2xl border border-line">

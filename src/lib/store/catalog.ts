@@ -7,8 +7,9 @@ import { posts, trending } from "@/data/mytourbee";
 import { defaultSettings } from "@/data/types";
 import { cruises } from "@/data/cruises";
 import { visas } from "@/data/visas";
+import { infoPages } from "@/data/pages";
 
-export type Kind = "destination" | "tour" | "activity" | "post" | "cruise" | "visa" | "settings";
+export type Kind = "destination" | "tour" | "activity" | "post" | "cruise" | "visa" | "page" | "settings";
 
 /** Seeds sample content once per kind, so adding a new kind later never touches existing data. */
 function seedOnce() {
@@ -33,6 +34,7 @@ function seedOnce() {
   });
   run("seeded:cruise", () => cruises.forEach((x) => put.run("cruise", x.slug, JSON.stringify(x), at)));
   run("seeded:visa", () => visas.forEach((x) => put.run("visa", x.slug, JSON.stringify(x), at)));
+  run("seeded:page", () => infoPages.forEach((x) => put.run("page", x.slug, JSON.stringify(x), at)));
 }
 
 export function listCatalog<T>(kind: Kind): T[] {

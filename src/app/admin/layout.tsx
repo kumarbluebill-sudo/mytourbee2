@@ -9,7 +9,7 @@ const nav = [
   ["Dashboard", "/admin"],
   ["Tour packages", "/admin/c/tour"], ["Things To Do", "/admin/c/activity"], ["Cruises", "/admin/c/cruise"], ["Visa services", "/admin/c/visa"], ["Destinations", "/admin/c/destination"], ["Travel guides", "/admin/c/post"],
   ["Enquiries", "/admin/enquiries"], ["Bookings", "/admin/bookings"], ["Reviews", "/admin/reviews"], ["Inbox", "/admin/inbox"],
-  ["Site settings", "/admin/settings"],
+  ["Information pages", "/admin/c/page"], ["Site settings", "/admin/settings"],
 ];
 
 export default async function AdminLayout({ children }: LayoutProps<"/admin">) {

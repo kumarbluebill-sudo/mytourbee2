@@ -1,5 +1,5 @@
 import type { DestinationDetail } from "@/data/destinations";
-import type { ActivityFull, Cruise, Deal, Destination, Post, Review, SiteSettings, Tour, Visa } from "@/data/types";
+import type { ActivityFull, Cruise, Deal, Destination, Post, Review, InfoPage, SiteSettings, Tour, Visa } from "@/data/types";
 
 /**
  * Single seam between the UI and product sources. Today it is backed by
@@ -25,5 +25,6 @@ export interface ProductService {
   getCruise(slug: string): Promise<Cruise | undefined>;
   getVisas(): Promise<Visa[]>;
   getVisa(slug: string): Promise<Visa | undefined>;
+  getPage(slug: string): Promise<InfoPage | undefined>;
   getSettings(): Promise<SiteSettings>;
 }

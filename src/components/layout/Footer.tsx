@@ -2,7 +2,7 @@ import Link from "next/link";
 import { productService } from "@/lib/services";
 
 const cols: [string, [string, string][]][] = [
-  ["Company", [["About", "/about"], ["Contact", "/contact"], ["Careers", "/careers"]]],
+  ["Company", [["About", "/about"], ["Contact", "/contact"]]],
   ["Travel", [["Domestic Tours", "/tours/domestic"], ["International Tours", "/tours/international"], ["Things To Do", "/things-to-do"], ["Cruises", "/cruises"], ["Deals", "/deals"]]],
   ["Support", [["FAQs", "/faq"], ["Cancellation", "/cancellation"], ["Terms", "/terms"], ["Privacy", "/privacy"]]],
 ];
