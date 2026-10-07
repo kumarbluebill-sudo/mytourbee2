@@ -1,5 +1,6 @@
 import "server-only";
-import { mkdirSync } from "node:fs";
+import { accessSync, constants, mkdirSync } from "node:fs";
+import os from "node:os";
 import { DatabaseSync } from "node:sqlite";
 import path from "node:path";
 
@@ -8,7 +9,25 @@ import path from "node:path";
  * functions in src/lib/store/*, so moving to PostgreSQL later only means
  * re-implementing those.
  */
-export const DATA_DIR = path.join(process.cwd(), ".data");
+/**
+ * Where the database and uploads live. Set DATA_DIR to a persistent disk in production.
+ * Hosts with a read-only project folder (e.g. serverless) fall back to the temp directory,
+ * which works but is NOT persistent: data there is lost on restart.
+ */
+function resolveDataDir() {
+  const wanted = process.env.DATA_DIR || path.join(process.cwd(), ".data");
+  try {
+    mkdirSync(wanted, { recursive: true });
+    accessSync(wanted, constants.W_OK);
+    return wanted;
+  } catch {
+    const fallback = path.join(os.tmpdir(), "mytourbee-data");
+    mkdirSync(fallback, { recursive: true });
+    console.warn(`[db] ${wanted} is not writable; using ${fallback}. Data will not persist. Set DATA_DIR to a persistent disk.`);
+    return fallback;
+  }
+}
+export const DATA_DIR = resolveDataDir();
 
 const g = globalThis as unknown as { __tbDb?: DatabaseSync };
 
