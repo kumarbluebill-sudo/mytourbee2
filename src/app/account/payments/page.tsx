@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import StatusBadge from "@/components/ui/StatusBadge";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { fmtDate, inr } from "@/lib/format";
 import { listBookingsFor } from "@/lib/store/records";
 
 export const metadata: Metadata = { title: "Payments | MyTourbee", robots: { index: false } };
 
 export default async function PaymentsPage() {
-  const s = (await getSession())!;
+  const s = await requireSession();
   const list = listBookingsFor(s.ident).filter((b) => b.status !== "cancelled" || b.payment !== "unpaid");
   const due = list.filter((b) => b.payment === "unpaid" && b.status !== "cancelled").reduce((n, b) => n + b.total, 0);
   const paid = list.filter((b) => b.payment === "paid").reduce((n, b) => n + b.total, 0);

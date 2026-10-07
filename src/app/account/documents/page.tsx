@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { fmtDate } from "@/lib/format";
 import { listBookingsFor } from "@/lib/store/records";
 
 export const metadata: Metadata = { title: "Documents | MyTourbee", robots: { index: false } };
 
 export default async function DocumentsPage() {
-  const s = (await getSession())!;
+  const s = await requireSession();
   const ready = listBookingsFor(s.ident).filter((b) => b.status === "confirmed" || b.status === "completed");
 
   return (

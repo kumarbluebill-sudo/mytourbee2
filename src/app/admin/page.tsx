@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { getSession } from "@/lib/auth";
+import { requireAdminSession } from "@/lib/auth";
 import { fmtDate, inr } from "@/lib/format";
 import { listCatalog } from "@/lib/store/catalog";
 import { listAudit, listBookings, listEnquiries, listMessages, listReviews, listSubscribers } from "@/lib/store/records";
 
 export default async function AdminHome() {
-  const s = (await getSession())!;
+  const s = await requireAdminSession();
   const enquiries = listEnquiries();
   const bookings = listBookings();
   const hour = new Date().getHours();

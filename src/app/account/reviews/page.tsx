@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import ReviewForm from "@/components/account/ReviewForm";
 import StatusBadge from "@/components/ui/StatusBadge";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { fmtDate } from "@/lib/format";
 import { listBookingsFor, listReviewsFor } from "@/lib/store/records";
 
 export const metadata: Metadata = { title: "My Reviews | MyTourbee", robots: { index: false } };
 
 export default async function ReviewsPage() {
-  const s = (await getSession())!;
+  const s = await requireSession();
   const mine = listReviewsFor(s.ident);
   const reviewed = new Set(mine.map((r) => r.bookingId));
   const toReview = listBookingsFor(s.ident).filter((b) => b.status === "completed" && !reviewed.has(b.id));

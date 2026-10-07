@@ -1,5 +1,6 @@
 import "server-only";
 import { cookies } from "next/headers";
+import { notFound, redirect } from "next/navigation";
 import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
 
 export const SESSION_COOKIE = "tb_session";
@@ -115,4 +116,17 @@ export function isAdmin(s: Session | null) {
 export async function adminSession() {
   const s = await getSession();
   return isAdmin(s) ? s : null;
+}
+
+/** For pages: layouts and pages render at the same time, so each page must check the session itself. */
+export async function requireSession(next = "/account") {
+  const s = await getSession();
+  if (!s) redirect(`/login?next=${next}`);
+  return s;
+}
+
+export async function requireAdminSession() {
+  const s = await requireSession("/admin");
+  if (!isAdmin(s)) notFound();
+  return s;
 }

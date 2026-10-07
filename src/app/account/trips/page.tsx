@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import StatusBadge from "@/components/ui/StatusBadge";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { fmtDate, inr } from "@/lib/format";
 import { listBookingsFor, listEnquiriesFor } from "@/lib/store/records";
 
 export const metadata: Metadata = { title: "My Trips | MyTourbee", robots: { index: false } };
 
 export default async function TripsPage() {
-  const s = (await getSession())!;
+  const s = await requireSession();
   const bookings = listBookingsFor(s.ident);
   const enquiries = listEnquiriesFor(s.ident);
 

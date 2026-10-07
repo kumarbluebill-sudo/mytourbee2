@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ProfileForm from "@/components/account/ProfileForm";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { ensureUser, getUser, listBookingsFor, listEnquiriesFor } from "@/lib/store/records";
 
 export const metadata: Metadata = { title: "My Account | MyTourbee", robots: { index: false } };
 
 export default async function AccountPage() {
-  const s = (await getSession())!; // layout guarantees a session
+  const s = await requireSession();
   ensureUser(s.ident, s.method);
   const u = getUser(s.ident)!;
   const bookings = listBookingsFor(s.ident);

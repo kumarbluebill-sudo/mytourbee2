@@ -3,7 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import PrintButton from "@/components/account/PrintButton";
 import StatusBadge from "@/components/ui/StatusBadge";
-import { getSession } from "@/lib/auth";
+import { requireSession } from "@/lib/auth";
 import { fmtDate, inr, kindLabel, tripHref } from "@/lib/format";
 import { getBookingFor } from "@/lib/store/records";
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = { title: "My Booking | MyTourbee", robots: { i
 
 export default async function BookingDetail({ params }: PageProps<"/account/trips/[id]">) {
   const { id } = await params;
-  const s = (await getSession())!;
+  const s = await requireSession();
   const b = getBookingFor(id, s.ident);
   if (!b) notFound();
 
